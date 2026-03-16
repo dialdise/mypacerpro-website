@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyPacerPro — Corre Más Lejos. Vive Más Fuerte.</title>
+  <meta name="description" content="MyPacerPro es una comunidad de deportes de resistencia para corredores, triatletas y aventureros. Coaches certificados, beneficios con marcas globales y una familia que crece contigo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Barlow Condensed', 'sans-serif'],
+            body: ['Barlow', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              red: '#DC2626',
+              darkred: '#7F1D1D',
+              crimson: '#991B1B',
+              gold: '#FBBF24',
+              amber: '#F59E0B',
+              light: '#FEF2F2',
+              dark: '#0F0A0A',
+            }
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.6s ease-out forwards',
+            'fade-in': 'fadeIn 0.5s ease-out forwards',
+            'slide-right': 'slideRight 0.6s ease-out forwards',
+            'pulse-slow': 'pulse 3s ease-in-out infinite',
+            'ticker': 'ticker 25s linear infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideRight: {
+              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            ticker: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; background: #0F0A0A; color: #fff; overflow-x: hidden; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* Noise texture overlay */
+    .noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Gradient text */
+    .text-gradient {
+      background: linear-gradient(135deg, #DC2626 0%, #FBBF24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-white {
+      background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Hero background */
+    .hero-bg {
+      background:
+        linear-gradient(135deg, rgba(220,38,38,0.15) 0%, rgba(0,0,0,0) 60%),
+        linear-gradient(to bottom, rgba(15,10,10,0.3) 0%, rgba(15,10,10,0.85) 100%),
+        url('https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat;
+    }
+
+    /* Card hover glow */
+    .card-hover {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(220,38,38,0.2);
+      border-color: rgba(220,38,38,0.5);
+    }
+
+    /* Animated border */
+    .border-animated {
+      position: relative;
+      overflow: hidden;
+    }
+    .border-animated::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -100%;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, #DC2626, #FBBF24, transparent);
+      transition: left 0.4s ease;
+    }
+    .border-animated:hover::after { left: 100%; }
+
+    /* Stat number counter */
+    .stat-block { position: relative; }
+    .stat-block::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 0;
+      width: 40px; height: 3px;
+      background: #DC2626;
+      border-radius: 2px;
+    }
+
+    /* Sport card */
+    .sport-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .sport-card:hover { transform: scale(1.02); }
+    .sport-card .sport-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+      transition: opacity 0.3s ease;
+    }
+    .sport-card:hover .sport-overlay {
+      background: linear-gradient(to top, rgba(220,38,38,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    }
+    .sport-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .sport-card:hover img { transform: scale(1.08); }
+
+    /* Ticker tape */
+    .ticker-wrap { overflow: hidden; }
+    .ticker-inner { display: flex; width: max-content; }
+
+    /* Nav glassmorphism */
+    .nav-glass {
+      background: rgba(15, 10, 10, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(220,38,38,0.15);
+    }
+
+    /* Section reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0F0A0A; }
+    ::-webkit-scrollbar-thumb { background: #DC2626; border-radius: 3px; }
+
+    /* Coach card */
+    .coach-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .coach-card:hover {
+      border-color: rgba(220,38,38,0.4);
+      transform: translateY(-6px);
+    }
+    .coach-card:focus-visible {
+      outline: 2px solid #DC2626;
+      outline-offset: 2px;
+    }
+
+    /* Testimonial */
+    .testimonial-card {
+      background: linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(220,38,38,0.15);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s ease;
+    }
+    .testimonial-card:hover { border-color: rgba(220,38,38,0.4); }
+
+    /* Brand logo card */
+    .brand-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex; align-items: center; justify-content: center;
+      filter: grayscale(1) brightness(0.7);
+      transition: filter 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      cursor: default;
+    }
+    .brand-card:hover {
+      filter: grayscale(0) brightness(1);
+      border-color: rgba(220,38,38,0.3);
+      transform: scale(1.05);
+    }
+
+    /* Form inputs */
+    .form-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: #fff;
+      width: 100%;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      transition: border-color 0.25s ease, background 0.25s ease;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #DC2626;
+      background: rgba(220,38,38,0.05);
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.35); }
+
+    /* Hamburger */
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: #fff; border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    #mobile-menu.open { max-height: 500px; }
+
+    /* Benefit icon */
+    .benefit-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, rgba(220,38,38,0.2), rgba(251,191,36,0.1));
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Gold badge */
+    .badge-gold {
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      color: #0F0A0A;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    /* CTA pulse ring */
+    .pulse-ring {
+      position: relative;
+      display: inline-flex;
+    }
+    .pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50px;
+      background: rgba(220,38,38,0.25);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      70% { transform: scale(1.05); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+
+    /* Divider */
+    .divider {
+      width: 60px; height: 4px;
+      background: linear-gradient(90deg, #DC2626, #FBBF24);
+      border-radius: 2px;
+      margin: 16px 0 24px;
+    }
+
+    /* Section tag */
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FBBF24;
+    }
+    .section-tag svg { color: #DC2626; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════════════ -->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-50" role="navigation" aria-label="Navegación principal">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-2 group" aria-label="MyPacerPro Inicio">
+        <div class="w-9 h-9 rounded-lg bg-brand-red flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M13 4L6 13h6l-1 7 8-10h-6l1-6z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="font-heading font-bold text-xl tracking-wide text-white">
+          MY<span class="text-brand-red">PACER</span><span class="text-brand-gold">PRO</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-1">
+        <a href="#sports" class="px-4 py-2 text-sm font-body font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 border-animated">Deportes</a>
+        <a href="#coaches" class="px-4 py-2 text-sm font-body font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 border-animated">Coaches</a>
+        <a href="#benefits" class="px-4 py-2 text-sm font-body font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 border-animated">Beneficios</a>
+        <a href="#community" class="px-4 py-2 text-sm font-body font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 border-animated">Comunidad</a>
+        <a href="#contact" class="px-4 py-2 text-sm font-body font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 border-animated">Contacto</a>
+      </div>
+
+      <!-- Desktop CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <a href="https://www.instagram.com/mypacerpro/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-body font-medium text-white/70 hover:text-white hover:border-white/30 transition-all duration-200 cursor-pointer" aria-label="Seguir en Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <a href="#join" class="px-5 py-2 rounded-lg bg-brand-red hover:bg-red-700 text-white text-sm font-body font-semibold transition-colors duration-200 cursor-pointer">
+          Únete a la Familia
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger-btn" class="md:hidden hamburger flex flex-col gap-[6px] p-2 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" role="menu">
+    <div class="px-4 pb-4 space-y-1 border-t border-white/5">
+      <a href="#sports" class="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200 font-body cursor-pointer" role="menuitem">Deportes</a>
+      <a href="#coaches" class="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200 font-body cursor-pointer" role="menuitem">Coaches</a>
+      <a href="#benefits" class="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200 font-body cursor-pointer" role="menuitem">Beneficios</a>
+      <a href="#community" class="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200 font-body cursor-pointer" role="menuitem">Comunidad</a>
+      <a href="#contact" class="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200 font-body cursor-pointer" role="menuitem">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <a href="https://www.instagram.com/mypacerpro/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-white/10 text-white/70 font-body font-medium hover:text-white hover:border-white/30 transition-all duration-200 cursor-pointer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Seguir en Instagram
+        </a>
+        <a href="#join" class="block text-center px-4 py-3 rounded-lg bg-brand-red hover:bg-red-700 text-white font-body font-semibold transition-colors duration-200 cursor-pointer">Únete a la Familia</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<section id="home" class="hero-bg relative min-h-screen flex items-center pt-16" aria-label="Sección principal">
+  <div class="noise"></div>
+
+  <!-- Red accent line top -->
+  <div class="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-red/50 to-transparent"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+    <div class="max-w-3xl">
+
+      <!-- Tag -->
+      <div class="section-tag mb-6 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.1s;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 4L6 13h6l-1 7 8-10h-6l1-6z"/></svg>
+        Comunidad de Deportes de Resistencia
+      </div>
+
+      <!-- Headline -->
+      <h1 class="font-heading font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none tracking-tight mb-6 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.2s;">
+        CORRE<br/>
+        <span class="text-gradient">MÁS LEJOS.</span><br/>
+        VIVE<br/>
+        <span class="italic text-white/30">MÁS FUERTE.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="font-body text-lg md:text-xl text-white/65 leading-relaxed max-w-xl mb-10 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.35s;">
+        Más que un equipo — una familia. Entrena para maratones, triatlones, Ironmans y aventuras de trekking con coaches certificados y una comunidad que te lleva al límite.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.5s;">
+        <a href="#join" class="pulse-ring inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red hover:bg-red-700 text-white font-body font-semibold text-lg transition-colors duration-200 cursor-pointer group" aria-label="Únete a la familia MyPacerPro">
+          Únete a la Familia
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#sports" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl border border-white/15 hover:border-white/35 text-white font-body font-medium text-lg transition-all duration-200 cursor-pointer hover:bg-white/5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Ver Deportes
+        </a>
+      </div>
+
+      <!-- Social proof mini -->
+      <div class="flex items-center gap-6 mt-12 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.65s;">
+        <div class="flex -space-x-2">
+          <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=48&h=48&fit=crop&auto=format" alt="Miembro de la comunidad" width="36" height="36" class="w-9 h-9 rounded-full border-2 border-brand-red object-cover" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=48&h=48&fit=crop&auto=format" alt="Miembro de la comunidad" width="36" height="36" class="w-9 h-9 rounded-full border-2 border-brand-red object-cover" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=48&h=48&fit=crop&auto=format" alt="Miembro de la comunidad" width="36" height="36" class="w-9 h-9 rounded-full border-2 border-brand-red object-cover" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=48&h=48&fit=crop&auto=format" alt="Miembro de la comunidad" width="36" height="36" class="w-9 h-9 rounded-full border-2 border-brand-red object-cover" loading="lazy"/>
+          <div class="w-9 h-9 rounded-full border-2 border-brand-red bg-brand-red flex items-center justify-center text-white text-xs font-heading font-bold">+K</div>
+        </div>
+        <div>
+          <p class="font-body text-sm font-semibold text-white">1,200+ atletas</p>
+          <p class="font-body text-xs text-white/50">ya son parte de la familia</p>
+        </div>
+        <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+        <div class="hidden sm:flex items-center gap-2">
+          <div class="flex gap-0.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="font-body text-sm text-white/60">5.0 de calificación</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce" aria-hidden="true">
+    <span class="font-body text-xs text-white/30 tracking-widest uppercase">Bajar</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TICKER TAPE
+═══════════════════════════════════════════════════════════ -->
+<div class="py-4 bg-brand-red overflow-hidden" aria-hidden="true">
+  <div class="ticker-wrap">
+    <div class="ticker-inner animate-ticker">
+      <span class="ticker-item inline-flex items-center gap-4 px-6 font-heading font-bold text-white text-sm tracking-widest uppercase whitespace-nowrap" aria-hidden="true">
+        MARATÓN &bull; TRIATLÓN &bull; IRONMAN 70.3 &bull; IRONMAN FULL &bull; TRAIL RUNNING &bull; TREKKING &bull; ULTRA MARATÓN &bull; CICLISMO &bull; AGUAS ABIERTAS &bull;&nbsp;
+        MARATÓN &bull; TRIATLÓN &bull; IRONMAN 70.3 &bull; IRONMAN FULL &bull; TRAIL RUNNING &bull; TREKKING &bull; ULTRA MARATÓN &bull; CICLISMO &bull; AGUAS ABIERTAS &bull;&nbsp;
+        MARATÓN &bull; TRIATLÓN &bull; IRONMAN 70.3 &bull; IRONMAN FULL &bull; TRAIL RUNNING &bull; TREKKING &bull; ULTRA MARATÓN &bull; CICLISMO &bull; AGUAS ABIERTAS &bull;&nbsp;
+        MARATÓN &bull; TRIATLÓN &bull; IRONMAN 70.3 &bull; IRONMAN FULL &bull; TRAIL RUNNING &bull; TREKKING &bull; ULTRA MARATÓN &bull; CICLISMO &bull; AGUAS ABIERTAS &bull;&nbsp;
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     STATS
+═══════════════════════════════════════════════════════════ -->
+<section class="py-20 bg-brand-dark relative" aria-label="Estadísticas">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6">
+      <div class="stat-block reveal">
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">1,200<span class="text-brand-red">+</span></p>
+        <p class="font-body text-white/50 text-sm mt-4">Atletas Activos</p>
+      </div>
+      <div class="stat-block reveal reveal-delay-1">
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">15<span class="text-brand-red">+</span></p>
+        <p class="font-body text-white/50 text-sm mt-4">Coaches Certificados</p>
+      </div>
+      <div class="stat-block reveal reveal-delay-2">
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">30<span class="text-brand-red">+</span></p>
+        <p class="font-body text-white/50 text-sm mt-4">Marcas Globales</p>
+      </div>
+      <div class="stat-block reveal reveal-delay-3">
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">6<span class="text-brand-red">+</span></p>
+        <p class="font-body text-white/50 text-sm mt-4">Disciplinas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SPORTS / DISCIPLINES
+═══════════════════════════════════════════════════════════ -->
+<section id="sports" class="py-24 bg-brand-dark" aria-label="Deportes y disciplinas">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-14 reveal">
+      <div class="section-tag mb-4">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12A5.5 5.5 0 0 1 12 17.5V22a10 10 0 0 0 0-20v4.5A5.5 5.5 0 0 1 17.5 12zM12 2v4.5A5.5 5.5 0 0 0 6.5 12H2a10 10 0 0 1 10-10z"/></svg>
+        Nuestras Disciplinas
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">CADA DEPORTE.<br/><span class="text-gradient">UNA FAMILIA.</span></h2>
+      <div class="divider"></div>
+      <p class="font-body text-white/55 text-lg max-w-xl leading-relaxed">Desde tu primer 5K hasta cruzar la meta de un Ironman — entrenamos, competimos y celebramos juntos.</p>
+    </div>
+
+    <!-- Sport grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+
+      <!-- Marathon -->
+      <div class="sport-card h-64 md:h-80 reveal reveal-delay-1" tabindex="0" role="article" aria-label="Disciplina Maratón">
+        <img src="https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=600&auto=format&fit=crop&q=80" alt="Corredores de maratón en la calle" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">5K — 42K</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Maratón</h3>
+          <p class="font-body text-white/65 text-sm mt-1">Carreras de calle para todos los niveles</p>
+        </div>
+      </div>
+
+      <!-- Triatlón -->
+      <div class="sport-card h-64 md:h-80 reveal reveal-delay-2" tabindex="0" role="article" aria-label="Disciplina Triatlón">
+        <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600&auto=format&fit=crop&q=80" alt="Triatleta nadando" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">NADO · BICI · CARRERA</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Triatlón</h3>
+          <p class="font-body text-white/65 text-sm mt-1">Sprint, Olímpico y distancias 70.3</p>
+        </div>
+      </div>
+
+      <!-- Ironman -->
+      <div class="sport-card h-64 md:h-80 col-span-2 md:col-span-1 reveal reveal-delay-3" tabindex="0" role="article" aria-label="Disciplina Ironman">
+        <img src="https://images.unsplash.com/photo-1559888292-8ed78b9cda84?w=600&auto=format&fit=crop&q=80" alt="Atleta de Ironman en la meta" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">226 KM CURSO COMPLETO</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Ironman</h3>
+          <p class="font-body text-white/65 text-sm mt-1">El reto de resistencia definitivo</p>
+        </div>
+      </div>
+
+      <!-- Trail Running -->
+      <div class="sport-card h-64 md:h-72 reveal reveal-delay-1" tabindex="0" role="article" aria-label="Disciplina Trail Running">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&auto=format&fit=crop&q=80" alt="Corredor de trail en montaña" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">FUERA DE PISTA</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Trail Running</h3>
+          <p class="font-body text-white/65 text-sm mt-1">Montañas, bosques y ultras</p>
+        </div>
+      </div>
+
+      <!-- Trekking -->
+      <div class="sport-card h-64 md:h-72 reveal reveal-delay-2" tabindex="0" role="article" aria-label="Disciplina Trekking">
+        <img src="https://images.unsplash.com/photo-1535581652167-3a26c90bbf86?w=600&auto=format&fit=crop&q=80" alt="Grupo de trekking en montaña" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">AVENTURA</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Trekking</h3>
+          <p class="font-body text-white/65 text-sm mt-1">Expediciones y salidas grupales</p>
+        </div>
+      </div>
+
+      <!-- Ciclismo -->
+      <div class="sport-card h-64 md:h-72 reveal reveal-delay-3" tabindex="0" role="article" aria-label="Disciplina Ciclismo">
+        <img src="https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=600&auto=format&fit=crop&q=80" alt="Ciclista en carretera abierta" loading="lazy" width="600" height="400"/>
+        <div class="sport-overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+          <span class="badge-gold mb-2">RUTA · GRAVEL</span>
+          <h3 class="font-heading font-bold text-2xl md:text-3xl text-white">Ciclismo</h3>
+          <p class="font-body text-white/65 text-sm mt-1">Rodadas de resistencia y sportivas</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     WHY JOIN — FAMILY SECTION
+═══════════════════════════════════════════════════════════ -->
+<section class="py-24 relative overflow-hidden" style="background: linear-gradient(135deg, #0F0A0A 0%, #1A0505 50%, #0F0A0A 100%);" aria-label="Por qué unirte a MyPacerPro">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-5" aria-hidden="true" style="background-image: repeating-linear-gradient(45deg, #DC2626 0px, #DC2626 1px, transparent 0px, transparent 50%); background-size: 40px 40px;"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Left: Image collage -->
+      <div class="reveal relative">
+        <div class="grid grid-cols-2 gap-4">
+          <img src="https://images.unsplash.com/photo-1561715276-a2d087060f1d?w=400&auto=format&fit=crop&q=80" alt="Athletes celebrating together" class="rounded-2xl object-cover h-52 w-full" loading="lazy" width="400" height="300"/>
+          <img src="https://images.unsplash.com/photo-1486218119243-13301429e258?w=400&auto=format&fit=crop&q=80" alt="Runners in community event" class="rounded-2xl object-cover h-52 w-full mt-8" loading="lazy" width="400" height="300"/>
+          <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?w=400&auto=format&fit=crop&q=80" alt="Coach with athletes" class="rounded-2xl object-cover h-52 w-full -mt-8" loading="lazy" width="400" height="300"/>
+          <img src="https://images.unsplash.com/photo-1594882645126-14020914d58d?w=400&auto=format&fit=crop&q=80" alt="Team after marathon" class="rounded-2xl object-cover h-52 w-full" loading="lazy" width="400" height="300"/>
+        </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-brand-red text-white px-6 py-3 rounded-full font-heading font-bold text-lg shadow-xl whitespace-nowrap z-20">
+          Más que un equipo — una familia
+        </div>
+      </div>
+
+      <!-- Right: Text content -->
+      <div class="reveal reveal-delay-2">
+        <div class="section-tag mb-4">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Nuestra Filosofía
+        </div>
+        <h2 class="font-heading font-black text-5xl md:text-6xl text-white leading-none mb-4">
+          NO SOLO<br/>FORMAMOS<br/><span class="text-gradient">ATLETAS.</span>
+        </h2>
+        <div class="divider"></div>
+        <p class="font-body text-white/60 text-lg leading-relaxed mb-8">
+          En MyPacerPro, cada atleta es familia. Ya sea que te estés amarrando los tenis por primera vez o enfrentando un Ironman completo, nuestros coaches certificados diseñan planes personalizados que crecen contigo.
+        </p>
+
+        <!-- Pillars -->
+        <div class="space-y-5">
+          <div class="flex items-start gap-4">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-heading font-bold text-xl text-white">Coaches Certificados</h3>
+              <p class="font-body text-white/50 text-sm mt-1 leading-relaxed">Coaches con certificación internacional que han competido en los más altos niveles del deporte de resistencia.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-heading font-bold text-xl text-white">Cultura Familiar</h3>
+              <p class="font-body text-white/50 text-sm mt-1 leading-relaxed">Entrenamientos grupales, comunidad de WhatsApp, apoyo en carrera y celebraciones — siempre juntos.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <h3 class="font-heading font-bold text-xl text-white">Planes Personalizados</h3>
+              <p class="font-body text-white/50 text-sm mt-1 leading-relaxed">Planes de entrenamiento adaptados a tu condición física, estilo de vida y carrera objetivo — actualizados semanalmente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     COACHES
+═══════════════════════════════════════════════════════════ -->
+<section id="coaches" class="py-24 bg-brand-dark" aria-label="Nuestros coaches certificados">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-14 reveal">
+      <div class="section-tag mb-4">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Coaching de Élite
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">COACHES DE<br/><span class="text-gradient">CLASE MUNDIAL.</span></h2>
+      <div class="divider"></div>
+      <p class="font-body text-white/55 text-lg max-w-xl leading-relaxed">Cada coach de nuestro equipo está certificado, es experimentado y genuinamente comprometido con tu éxito. Atletas reales. Resultados reales.</p>
+    </div>
+
+    <!-- Coach cards -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Coach 1 -->
+      <div class="coach-card reveal reveal-delay-1">
+        <div class="relative h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop&q=80" alt="Coach Carlos Mendez, Marathon specialist" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" width="500" height="400"/>
+          <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent"></div>
+          <div class="absolute top-4 right-4 badge-gold">Certificado</div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-heading font-bold text-2xl text-white">Carlos Mendez</h3>
+          <p class="font-body text-brand-red font-semibold text-sm mt-1">Especialista en Maratón y Trail</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">12+ MP</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">Cert. ITRA</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">8 años exp</span>
+          </div>
+          <p class="font-body text-white/45 text-sm mt-4 leading-relaxed">Ex corredor élite de maratón. Ayuda a atletas de todos los niveles a romper sus marcas personales con entrenamiento científico.</p>
+        </div>
+      </div>
+
+      <!-- Coach 2 -->
+      <div class="coach-card reveal reveal-delay-2">
+        <div class="relative h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop&q=80" alt="Coach Ana Torres, especialista en triatlón" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" width="500" height="400"/>
+          <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent"></div>
+          <div class="absolute top-4 right-4 badge-gold">Certificada</div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-heading font-bold text-2xl text-white">Ana Torres</h3>
+          <p class="font-body text-brand-red font-semibold text-sm mt-1">Coach de Triatlón e Ironman</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">5x Ironman</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">ITU Nivel 2</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">10 años exp</span>
+          </div>
+          <p class="font-body text-white/45 text-sm mt-4 leading-relaxed">Finisher 5x Ironman convertida en coach. Guía a novatos y veteranos en el dominio del nado-bici-carrera.</p>
+        </div>
+      </div>
+
+      <!-- Coach 3 -->
+      <div class="coach-card reveal reveal-delay-3">
+        <div class="relative h-64 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=500&auto=format&fit=crop&q=80" alt="Coach Miguel Rios, fuerza y acondicionamiento" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" width="500" height="400"/>
+          <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent"></div>
+          <div class="absolute top-4 right-4 badge-gold">Certificado</div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-heading font-bold text-2xl text-white">Miguel Rios</h3>
+          <p class="font-body text-brand-red font-semibold text-sm mt-1">Fuerza y Acondicionamiento</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">NSCA CSCS</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">Fisio Deportivo</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60 font-body">6 años exp</span>
+          </div>
+          <p class="font-body text-white/45 text-sm mt-4 leading-relaxed">Prevención de lesiones y mejora del rendimiento. El pilar que mantiene a nuestros atletas sanos toda la temporada.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TRAINING PLANS
+═══════════════════════════════════════════════════════════ -->
+<section id="training" class="py-24 relative overflow-hidden" style="background: linear-gradient(to bottom, #0F0A0A, #150505, #0F0A0A);" aria-label="Planes de entrenamiento">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-14 reveal">
+      <div class="section-tag mb-4 mx-auto" style="display:inline-flex;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Programas de Entrenamiento
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">PLANES PARA<br/><span class="text-gradient">CADA NIVEL.</span></h2>
+      <div class="divider mx-auto"></div>
+      <p class="font-body text-white/55 text-lg max-w-xl mx-auto leading-relaxed">Elige tu objetivo y nosotros construimos el camino para llegar.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Starter -->
+      <div class="card-hover rounded-2xl border border-white/8 p-8 reveal reveal-delay-1" style="background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);">
+        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+        </div>
+        <span class="badge-gold mb-4 inline-block">Principiante</span>
+        <h3 class="font-heading font-bold text-3xl text-white mb-3">Base</h3>
+        <p class="font-body text-white/50 text-sm leading-relaxed mb-6">Perfecto para principiantes o quienes regresan después de un descanso. Construye condición física y confianza.</p>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Calendario semanal personalizado
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Sesiones grupales (2x/semana)
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Acceso a la comunidad
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Descuentos en marcas (10%)
+          </li>
+        </ul>
+        <a href="#join" class="block text-center px-6 py-3 rounded-xl border border-brand-red/40 text-brand-red font-body font-semibold hover:bg-brand-red hover:text-white transition-all duration-200 cursor-pointer">
+          Comenzar
+        </a>
+      </div>
+
+      <!-- Pro — Featured -->
+      <div class="card-hover rounded-2xl border border-brand-red/50 p-8 relative reveal reveal-delay-2" style="background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(220,38,38,0.03) 100%);">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-red to-brand-amber text-white text-xs font-heading font-bold px-5 py-1.5 rounded-full whitespace-nowrap">
+          MÁS POPULAR
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-brand-red/20 border border-brand-red/40 flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="badge-gold mb-4 inline-block">Atleta Pro</span>
+        <h3 class="font-heading font-bold text-3xl text-white mb-3">Rendimiento</h3>
+        <p class="font-body text-white/50 text-sm leading-relaxed mb-6">Para atletas con una carrera objetivo. Planes periodizados, sesiones 1:1 y estrategia de carrera.</p>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Todo lo del plan Base
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Seguimiento 1:1 mensual con coach
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Guía de nutrición y recuperación
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Descuentos en marcas (20%)
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Asistencia con inscripciones a carreras
+          </li>
+        </ul>
+        <a href="#join" class="block text-center px-6 py-3 rounded-xl bg-brand-red hover:bg-red-700 text-white font-body font-semibold transition-colors duration-200 cursor-pointer">
+          Unirse a Rendimiento
+        </a>
+      </div>
+
+      <!-- Elite -->
+      <div class="card-hover rounded-2xl border border-white/8 p-8 reveal reveal-delay-3" style="background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);">
+        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        </div>
+        <span class="badge-gold mb-4 inline-block">Élite</span>
+        <h3 class="font-heading font-bold text-3xl text-white mb-3">Campeón</h3>
+        <p class="font-body text-white/50 text-sm leading-relaxed mb-6">Coaching completo para atletas serios que buscan el podio o clasificar a Kona.</p>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Todo lo del plan Rendimiento
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Llamadas 1:1 semanales con coach
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Soporte completo el día de carrera
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Descuentos en marcas (30%)
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-white/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Acceso a equipo y patrocinios
+          </li>
+        </ul>
+        <a href="#join" class="block text-center px-6 py-3 rounded-xl border border-brand-red/40 text-brand-red font-body font-semibold hover:bg-brand-red hover:text-white transition-all duration-200 cursor-pointer">
+          Ir a Élite
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     BENEFITS & BRANDS
+═══════════════════════════════════════════════════════════ -->
+<section id="benefits" class="py-24 bg-brand-dark" aria-label="Beneficios y marcas aliadas">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="mb-14 reveal">
+      <div class="section-tag mb-4">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-linecap="round" stroke-width="3"/></svg>
+        Beneficios para Miembros
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">BENEFICIOS<br/><span class="text-gradient">EXCLUSIVOS.</span></h2>
+      <div class="divider"></div>
+      <p class="font-body text-white/55 text-lg max-w-xl leading-relaxed">Ser parte de la familia MyPacerPro abre las puertas a una red creciente de marcas globales y beneficios exclusivos.</p>
+    </div>
+
+    <!-- Benefit grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-20">
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-1" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-linecap="round" stroke-width="3"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Descuentos en Marcas</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Hasta 30% de descuento en marcas deportivas globales — equipo, nutrición, wearables y más.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-2" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Acceso Prioritario a Eventos</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Inscripción anticipada y cupos grupales en los principales maratones, triatlones e Ironman del mundo.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-3" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.58 1.22h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l1.14-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Acceso 24/7 a tu Coach</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Mensajería directa con tu coach asignado para preguntas de entrenamiento, correcciones y consejos de recuperación.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-1" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Red Comunitaria</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Grupos de WhatsApp, clubs de Strava, meetups mensuales y una red global de atletas en constante crecimiento.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-2" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Seguimiento de Rendimiento</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Integraciones con Garmin/Polar, reportes semanales de progreso, VO2 máx y herramientas de predicción de carrera.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 p-6 rounded-2xl border border-white/6 hover:border-brand-red/30 transition-colors duration-300 card-hover reveal reveal-delay-3" style="background: rgba(255,255,255,0.02);">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <div>
+          <h3 class="font-heading font-bold text-xl text-white">Equipo Exclusivo</h3>
+          <p class="font-body text-white/45 text-sm mt-1 leading-relaxed">Kit MyPacerPro, lanzamientos de equipo y productos exclusivos para miembros de marcas aliadas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partner Brands -->
+    <div class="reveal">
+      <p class="text-center font-body text-sm text-white/30 uppercase tracking-widest mb-8">Red en crecimiento de aliados globales</p>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <div class="brand-card" aria-label="Garmin partner">
+          <span class="font-heading font-bold text-xl text-white">GARMIN</span>
+        </div>
+        <div class="brand-card" aria-label="Asics partner">
+          <span class="font-heading font-bold text-xl text-white">ASICS</span>
+        </div>
+        <div class="brand-card" aria-label="GU Energy partner">
+          <span class="font-heading font-bold text-xl text-white">GU</span>
+        </div>
+        <div class="brand-card" aria-label="Hoka partner">
+          <span class="font-heading font-bold text-xl text-white">HOKA</span>
+        </div>
+        <div class="brand-card" aria-label="Polar partner">
+          <span class="font-heading font-bold text-xl text-white">POLAR</span>
+        </div>
+        <div class="brand-card" aria-label="Más marcas próximamente" title="Se agregan nuevas marcas constantemente">
+          <span class="font-heading font-bold text-base text-white/50">+ MÁS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TESTIMONIALS / COMMUNITY
+═══════════════════════════════════════════════════════════ -->
+<section id="community" class="py-24 relative overflow-hidden" style="background: linear-gradient(135deg, #0F0A0A 0%, #1A0505 50%, #0F0A0A 100%);" aria-label="Testimonios de la comunidad">
+  <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-5" style="background: radial-gradient(circle, #DC2626 0%, transparent 70%); transform: translate(30%, -30%);" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-14 reveal">
+      <div class="section-tag mb-4 mx-auto" style="display:inline-flex;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Atletas Reales. Historias Reales.
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">LO QUE DICE<br/><span class="text-gradient">NUESTRA FAMILIA.</span></h2>
+      <div class="divider mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="font-body text-white/70 text-base leading-relaxed italic mb-6">
+          "Me inscribí siendo principiante total y 8 meses después crucé mi primera meta de maratón. Los coaches, la comunidad, el grupo de WhatsApp a las 5am — todo es real. Este equipo cambió mi vida."
+        </blockquote>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&auto=format" alt="Sofia R., primera maratón terminada" class="w-10 h-10 rounded-full object-cover border-2 border-brand-red" loading="lazy" width="40" height="40"/>
+          <div>
+            <p class="font-heading font-bold text-white text-base">Sofia R.</p>
+            <p class="font-body text-white/40 text-xs">Primera Maratón Completada, 2024</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="flex gap-1 mb-4" aria-label="5 out of 5 stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="font-body text-white/70 text-base leading-relaxed italic mb-6">
+          "Terminé el Ironman 70.3 este año con una marca personal. El plan periodizado de la Coach Ana fue exactamente lo que necesitaba. Además, los descuentos en marcas me ahorraron cientos en equipo. Vale cada peso."
+        </blockquote>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format" alt="Diego M., finisher Ironman 70.3" class="w-10 h-10 rounded-full object-cover border-2 border-brand-red" loading="lazy" width="40" height="40"/>
+          <div>
+            <p class="font-heading font-bold text-white text-base">Diego M.</p>
+            <p class="font-body text-white/40 text-xs">Ironman 70.3 Completado, MP 2024</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-3">
+        <div class="flex gap-1 mb-4" aria-label="5 out of 5 stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="font-body text-white/70 text-base leading-relaxed italic mb-6">
+          "Entrené solo por años y me estanqué. Unirme a MyPacerPro me dio compromiso, amigos y un coach que de verdad se preocupa. El año pasado hicimos el trekking en la Patagonia juntos — inolvidable."
+        </blockquote>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&auto=format" alt="Valentina C., trail runner y trekker" class="w-10 h-10 rounded-full object-cover border-2 border-brand-red" loading="lazy" width="40" height="40"/>
+          <div>
+            <p class="font-heading font-bold text-white text-base">Valentina C.</p>
+            <p class="font-body text-white/40 text-xs">Trail Runner y Trekker</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JOIN THE FAMILY — FORM CTA
+═══════════════════════════════════════════════════════════ -->
+<section id="join" class="py-24 bg-brand-dark" aria-label="Únete a MyPacerPro">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-12 reveal">
+      <div class="section-tag mb-4 mx-auto" style="display:inline-flex;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 4L6 13h6l-1 7 8-10h-6l1-6z"/></svg>
+        Únete Hoy
+      </div>
+      <h2 class="font-heading font-black text-5xl md:text-6xl text-white">COMIENZA TU<br/><span class="text-gradient">CAMINO.</span></h2>
+      <div class="divider mx-auto"></div>
+      <p class="font-body text-white/55 text-lg leading-relaxed max-w-lg mx-auto">
+        Cuéntanos sobre ti y un coach te contactará en menos de 24 horas para diseñar tu plan personalizado.
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form class="rounded-2xl border border-white/8 p-8 md:p-10 reveal reveal-delay-1" style="background: linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(255,255,255,0.02) 100%);" onsubmit="handleFormSubmit(event)" novalidate aria-label="Formulario para unirse a MyPacerPro">
+
+      <div class="grid sm:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="first-name" class="block font-body text-sm font-medium text-white/60 mb-2">Nombre <span aria-hidden="true" class="text-brand-red">*</span></label>
+          <input type="text" id="first-name" name="first-name" class="form-input" placeholder="María" required autocomplete="given-name" aria-required="true"/>
+        </div>
+        <div>
+          <label for="last-name" class="block font-body text-sm font-medium text-white/60 mb-2">Apellido <span aria-hidden="true" class="text-brand-red">*</span></label>
+          <input type="text" id="last-name" name="last-name" class="form-input" placeholder="López" required autocomplete="family-name" aria-required="true"/>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block font-body text-sm font-medium text-white/60 mb-2">Correo electrónico <span aria-hidden="true" class="text-brand-red">*</span></label>
+        <input type="email" id="email" name="email" class="form-input" placeholder="maria@ejemplo.com" required autocomplete="email" aria-required="true"/>
+      </div>
+
+      <div class="mb-4">
+        <label for="sport" class="block font-body text-sm font-medium text-white/60 mb-2">Deporte / Objetivo Principal</label>
+        <select id="sport" name="sport" class="form-input cursor-pointer" style="appearance:none; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff60' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 16px center;">
+          <option value="" style="background:#1a0505;">Selecciona tu objetivo...</option>
+          <option value="marathon" style="background:#1a0505;">Maratón</option>
+          <option value="triathlon" style="background:#1a0505;">Triatlón</option>
+          <option value="ironman" style="background:#1a0505;">Ironman (70.3 o Full)</option>
+          <option value="trail" style="background:#1a0505;">Trail Running</option>
+          <option value="trekking" style="background:#1a0505;">Trekking / Aventura</option>
+          <option value="cycling" style="background:#1a0505;">Ciclismo</option>
+          <option value="other" style="background:#1a0505;">Otro / Aún no sé</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="level" class="block font-body text-sm font-medium text-white/60 mb-2">Nivel Actual</label>
+        <div class="grid grid-cols-3 gap-3" role="radiogroup" aria-label="Selecciona tu nivel">
+          <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer hover:border-brand-red/40 transition-colors duration-200 has-[:checked]:border-brand-red has-[:checked]:bg-brand-red/10">
+            <input type="radio" name="level" value="beginner" class="sr-only"/>
+            <span class="font-body text-sm text-white/60 has-parent-checked:text-white">Principiante</span>
+          </label>
+          <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer hover:border-brand-red/40 transition-colors duration-200 has-[:checked]:border-brand-red has-[:checked]:bg-brand-red/10">
+            <input type="radio" name="level" value="intermediate" class="sr-only"/>
+            <span class="font-body text-sm text-white/60">Intermedio</span>
+          </label>
+          <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer hover:border-brand-red/40 transition-colors duration-200 has-[:checked]:border-brand-red has-[:checked]:bg-brand-red/10">
+            <input type="radio" name="level" value="advanced" class="sr-only"/>
+            <span class="font-body text-sm text-white/60">Avanzado</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="message" class="block font-body text-sm font-medium text-white/60 mb-2">¿Algo más? (objetivos, lesiones, tiempo disponible)</label>
+        <textarea id="message" name="message" rows="3" class="form-input resize-none" placeholder="Quiero completar mi primer Ironman en 2025..."></textarea>
+      </div>
+
+      <button type="submit" id="submit-btn" class="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red hover:bg-red-700 text-white font-body font-semibold text-lg transition-colors duration-200 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red" aria-label="Enviar formulario de registro">
+        <svg id="submit-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span id="submit-text">Únete a la Familia</span>
+      </button>
+
+      <!-- Success state (hidden by default) -->
+      <div id="form-success" class="hidden text-center mt-6 p-4 rounded-xl" style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);" role="alert" aria-live="polite">
+        <svg class="mx-auto mb-2" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p class="font-heading font-bold text-xl text-white">¡Bienvenido a la familia!</p>
+        <p class="font-body text-white/55 text-sm mt-1">Un coach te contactará en las próximas 24 horas. ¡Bienvenido a MyPacerPro!</p>
+      </div>
+
+      <p class="font-body text-xs text-white/30 text-center mt-4">Sin spam. Sin compromisos. Solo coaching.</p>
+    </form>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════════════════════════ -->
+<section id="contact" class="py-16 relative" style="background: linear-gradient(to bottom, #0F0A0A, #150505);" aria-label="Contact information">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center p-6 rounded-2xl border border-white/5 hover:border-brand-red/20 transition-colors duration-300 reveal reveal-delay-1">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-brand-red/10 border border-brand-red/20 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#DC2626" stroke="none"/></svg>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-white mb-1">Instagram</h3>
+        <a href="https://www.instagram.com/mypacerpro/" target="_blank" rel="noopener noreferrer" class="font-body text-brand-red hover:text-brand-gold transition-colors duration-200 text-sm cursor-pointer">@mypacerpro</a>
+      </div>
+      <div class="text-center p-6 rounded-2xl border border-white/5 hover:border-brand-red/20 transition-colors duration-300 reveal reveal-delay-2">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-brand-red/10 border border-brand-red/20 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-white mb-1">Comunidad WhatsApp</h3>
+        <a href="#join" class="font-body text-brand-red hover:text-brand-gold transition-colors duration-200 text-sm cursor-pointer">Únete para obtener acceso</a>
+      </div>
+      <div class="text-center p-6 rounded-2xl border border-white/5 hover:border-brand-red/20 transition-colors duration-300 reveal reveal-delay-3">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-brand-red/10 border border-brand-red/20 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-white mb-1">Email</h3>
+        <a href="mailto:info@mypacerpro.com" class="font-body text-brand-red hover:text-brand-gold transition-colors duration-200 text-sm cursor-pointer">info@mypacerpro.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer class="py-12 border-t border-white/5" style="background:#0A0505;" role="contentinfo">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-4 gap-10 mb-10">
+
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <a href="#home" class="flex items-center gap-2 mb-4" aria-label="MyPacerPro Inicio">
+          <div class="w-9 h-9 rounded-lg bg-brand-red flex items-center justify-center flex-shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 4L6 13h6l-1 7 8-10h-6l1-6z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="font-heading font-bold text-xl tracking-wide text-white">MY<span class="text-brand-red">PACER</span><span class="text-brand-gold">PRO</span></span>
+        </a>
+        <p class="font-body text-white/40 text-sm leading-relaxed max-w-xs">
+          Comunidad de deportes de resistencia para atletas que entrenan fuerte, rompen límites y crecen juntos — como una familia.
+        </p>
+        <div class="flex gap-3 mt-5">
+          <a href="https://www.instagram.com/mypacerpro/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-brand-red/50 transition-all duration-200 cursor-pointer" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-brand-red/50 transition-all duration-200 cursor-pointer" aria-label="Strava">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-brand-red/50 transition-all duration-200 cursor-pointer" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="font-heading font-bold text-white text-base mb-4 uppercase tracking-wide">Accesos Rápidos</h4>
+        <ul class="space-y-2">
+          <li><a href="#sports" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Nuestros Deportes</a></li>
+          <li><a href="#coaches" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Coaches</a></li>
+          <li><a href="#training" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Planes de Entrenamiento</a></li>
+          <li><a href="#benefits" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Beneficios</a></li>
+          <li><a href="#community" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Comunidad</a></li>
+          <li><a href="#join" class="font-body text-white/40 text-sm hover:text-white transition-colors duration-200 cursor-pointer">Únete</a></li>
+        </ul>
+      </div>
+
+      <!-- Disciplines -->
+      <div>
+        <h4 class="font-heading font-bold text-white text-base mb-4 uppercase tracking-wide">Disciplinas</h4>
+        <ul class="space-y-2">
+          <li><span class="font-body text-white/40 text-sm">Maratón</span></li>
+          <li><span class="font-body text-white/40 text-sm">Triatlón</span></li>
+          <li><span class="font-body text-white/40 text-sm">Ironman Full & 70.3</span></li>
+          <li><span class="font-body text-white/40 text-sm">Trail Running</span></li>
+          <li><span class="font-body text-white/40 text-sm">Trekking</span></li>
+          <li><span class="font-body text-white/40 text-sm">Ciclismo</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="font-body text-white/25 text-xs">© 2025 MyPacerPro. Todos los derechos reservados.</p>
+      <p class="font-body text-white/20 text-xs">Hecho para atletas. Por atletas.</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+  // ── Mobile Nav ──────────────────────────────────────────
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', isOpen.toString());
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ── Scroll Reveal ───────────────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ── Radio button styling ────────────────────────────────
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll(`input[name="${radio.name}"]`).forEach(r => {
+        const label = r.closest('label');
+        if (r.checked) {
+          label.style.borderColor = 'rgba(220,38,38,0.6)';
+          label.style.background = 'rgba(220,38,38,0.1)';
+          label.querySelector('span').style.color = '#fff';
+        } else {
+          label.style.borderColor = 'rgba(255,255,255,0.1)';
+          label.style.background = 'transparent';
+          label.querySelector('span').style.color = 'rgba(255,255,255,0.6)';
+        }
+      });
+    });
+  });
+
+  // ── Form Submit ─────────────────────────────────────────
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const icon = document.getElementById('submit-icon');
+    const text = document.getElementById('submit-text');
+    const success = document.getElementById('form-success');
+
+    // Disable button
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.cursor = 'not-allowed';
+
+    // Loading state
+    icon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10" style="animation: spin 1s linear infinite; transform-origin: center;"/>';
+    text.textContent = 'Enviando...';
+
+    // Simulate async (replace with actual fetch)
+    setTimeout(() => {
+      btn.style.display = 'none';
+      success.classList.remove('hidden');
+      success.focus();
+    }, 1200);
+  }
+
+  // ── Spin animation for loader ───────────────────────────
+  const style = document.createElement('style');
+  style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+  document.head.appendChild(style);
+
+  // ── Smooth scroll offset for fixed nav ─────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 72;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ── Navbar shadow on scroll ─────────────────────────────
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.4)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>

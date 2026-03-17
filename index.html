@@ -5,6 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyPacerPro — Corre Más Lejos. Vive Más Fuerte.</title>
   <meta name="description" content="MyPacerPro es una comunidad de deportes de resistencia para corredores, triatletas y aventureros. Coaches certificados, beneficios con marcas globales y una familia que crece contigo." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#DC2626" />
+  <link rel="canonical" href="https://www.mypacerpro.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.mypacerpro.com/" />
+  <meta property="og:title" content="MyPacerPro — Corre Más Lejos. Vive Más Fuerte." />
+  <meta property="og:description" content="Comunidad de deportes de resistencia para corredores, triatletas y aventureros. Coaches certificados, beneficios con marcas globales y una familia que crece contigo." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&auto=format&fit=crop&q=80" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="MyPacerPro" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MyPacerPro — Corre Más Lejos. Vive Más Fuerte." />
+  <meta name="twitter:description" content="Comunidad de deportes de resistencia para corredores, triatletas y aventureros." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&auto=format&fit=crop&q=80" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsOrganization",
+    "name": "MyPacerPro",
+    "url": "https://www.mypacerpro.com/",
+    "logo": "https://www.mypacerpro.com/logo.png",
+    "description": "Comunidad de deportes de resistencia para corredores, triatletas y aventureros. Coaches certificados y beneficios con marcas globales.",
+    "sameAs": ["https://www.instagram.com/mypacerpro/"],
+    "sport": ["Marathon Running", "Triathlon", "Trail Running", "Cycling", "Trekking"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "info@mypacerpro.com",
+      "contactType": "customer support"
+    }
+  }
+  </script>
+
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1800&auto=format&fit=crop&q=80" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
@@ -316,6 +355,9 @@
       70% { transform: scale(1.05); opacity: 0; }
       100% { transform: scale(0.95); opacity: 0; }
     }
+
+    /* Spin animation */
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Divider */
     .divider {
@@ -1051,7 +1093,7 @@
       </div>
 
       <div class="testimonial-card reveal reveal-delay-2">
-        <div class="flex gap-1 mb-4" aria-label="5 out of 5 stars">
+        <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1071,7 +1113,7 @@
       </div>
 
       <div class="testimonial-card reveal reveal-delay-3">
-        <div class="flex gap-1 mb-4" aria-label="5 out of 5 stars">
+        <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1281,7 +1323,7 @@
 
     <!-- Bottom bar -->
     <div class="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="font-body text-white/25 text-xs">© 2025 MyPacerPro. Todos los derechos reservados.</p>
+      <p class="font-body text-white/25 text-xs">© 2026 MyPacerPro. Todos los derechos reservados.</p>
       <p class="font-body text-white/20 text-xs">Hecho para atletas. Por atletas.</p>
     </div>
   </div>
@@ -1366,11 +1408,6 @@
       success.focus();
     }, 1200);
   }
-
-  // ── Spin animation for loader ───────────────────────────
-  const style = document.createElement('style');
-  style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
-  document.head.appendChild(style);
 
   // ── Smooth scroll offset for fixed nav ─────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

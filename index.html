@@ -72,7 +72,11 @@
             'fade-in': 'fadeIn 0.5s ease-out forwards',
             'slide-right': 'slideRight 0.6s ease-out forwards',
             'pulse-slow': 'pulse 3s ease-in-out infinite',
-            'ticker': 'ticker 25s linear infinite',
+            'ticker': 'ticker 35s linear infinite',
+            'gradient': 'gradientShift 6s ease infinite',
+            'shine': 'shine 4s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'beam': 'beam 8s ease-in-out infinite',
           },
           keyframes: {
             fadeUp: {
@@ -90,6 +94,26 @@
             ticker: {
               '0%': { transform: 'translateX(0)' },
               '100%': { transform: 'translateX(-50%)' },
+            },
+            gradientShift: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+            shine: {
+              '0%': { backgroundPosition: '0% 0%' },
+              '50%': { backgroundPosition: '100% 100%' },
+              '100%': { backgroundPosition: '0% 0%' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            beam: {
+              '0%': { opacity: '0', transform: 'translateX(-100%) rotate(45deg)' },
+              '30%': { opacity: '1' },
+              '70%': { opacity: '1' },
+              '100%': { opacity: '0', transform: 'translateX(200%) rotate(45deg)' },
             },
           }
         }
@@ -359,6 +383,149 @@
     /* Spin animation */
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── 21st.dev: Animated Gradient Text ─────────────────── */
+    .text-gradient-animated {
+      background: linear-gradient(135deg, #DC2626, #FBBF24, #DC2626, #ef4444);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 5s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── 21st.dev: Shine Border (adapted from magicui/shine-border) ── */
+    .shine-border {
+      position: relative;
+    }
+    .shine-border::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(transparent, transparent, #DC2626, #FBBF24, #DC2626, transparent, transparent);
+      background-size: 300% 300%;
+      animation: shine 4s linear infinite;
+      z-index: 0;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      padding: 1px;
+    }
+    @keyframes shine {
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    /* ── 21st.dev: Spotlight Hero (Aceternity-inspired) ─────── */
+    .hero-spotlight {
+      --spotlight-x: 50%;
+      --spotlight-y: 50%;
+    }
+    .hero-spotlight::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--spotlight-x) var(--spotlight-y),
+        rgba(220,38,38,0.08) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+      z-index: 2;
+      transition: background 0.1s ease;
+    }
+
+    /* ── 21st.dev: Background Grid (Aceternity-inspired) ──────── */
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(220,38,38,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220,38,38,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* ── 21st.dev: Marquee pause-on-hover ─────────────────────── */
+    .ticker-wrap:hover .ticker-inner { animation-play-state: paused; }
+
+    /* ── 21st.dev: Number ticker ─────────────────────────────── */
+    .stat-number { transition: color 0.3s ease; }
+
+    /* ── 21st.dev: Floating badge animation ──────────────────── */
+    .badge-float { animation: float 5s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* ── 21st.dev: Beam effect ───────────────────────────────── */
+    .beam-line {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(to bottom, transparent, #DC2626, #FBBF24, transparent);
+      animation: beamSlide linear infinite;
+      opacity: 0;
+    }
+    @keyframes beamSlide {
+      0%   { top: -120px; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { top: 110%; opacity: 0; }
+    }
+
+    /* ── 21st.dev: Gradient section tag ─────────────────────── */
+    .section-tag-glow {
+      box-shadow: 0 0 20px rgba(220,38,38,0.2), inset 0 0 20px rgba(220,38,38,0.05);
+    }
+
+    /* ── 21st.dev: Glow CTA button ───────────────────────────── */
+    .btn-glow {
+      box-shadow: 0 0 0 0 rgba(220,38,38,0.4);
+      transition: box-shadow 0.3s ease, background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 30px rgba(220,38,38,0.5), 0 0 60px rgba(220,38,38,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ── Testimonial quote icon ───────────────────────────────── */
+    .quote-icon {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 72px;
+      line-height: 1;
+      color: rgba(220,38,38,0.08);
+      font-family: Georgia, serif;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── 21st.dev: Card spotlight (Aceternity) ────────────────── */
+    .card-spotlight {
+      --card-x: 50%;
+      --card-y: 50%;
+      position: relative;
+    }
+    .card-spotlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(300px circle at var(--card-x) var(--card-y),
+        rgba(220,38,38,0.07) 0%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card-spotlight:hover::before { opacity: 1; }
+
     /* Divider */
     .divider {
       width: 60px; height: 4px;
@@ -455,8 +622,17 @@
 <!-- ═══════════════════════════════════════════════════════════
      HERO
 ═══════════════════════════════════════════════════════════ -->
-<section id="home" class="hero-bg relative min-h-screen flex items-center pt-16" aria-label="Sección principal">
+<section id="home" class="hero-bg hero-spotlight relative min-h-screen flex items-center pt-16" aria-label="Sección principal">
   <div class="noise"></div>
+
+  <!-- 21st.dev: Background grid overlay -->
+  <div class="bg-grid absolute inset-0 opacity-40" aria-hidden="true"></div>
+
+  <!-- 21st.dev: Animated beam lines -->
+  <div class="beam-line" style="left:15%; animation-duration:7s; animation-delay:0s;" aria-hidden="true"></div>
+  <div class="beam-line" style="left:40%; animation-duration:9s; animation-delay:3s;" aria-hidden="true"></div>
+  <div class="beam-line" style="left:70%; animation-duration:6s; animation-delay:1.5s;" aria-hidden="true"></div>
+  <div class="beam-line" style="left:88%; animation-duration:11s; animation-delay:5s;" aria-hidden="true"></div>
 
   <!-- Red accent line top -->
   <div class="absolute top-16 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-red/50 to-transparent"></div>
@@ -473,7 +649,7 @@
       <!-- Headline -->
       <h1 class="font-heading font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none tracking-tight mb-6 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.2s;">
         CORRE<br/>
-        <span class="text-gradient">MÁS LEJOS.</span><br/>
+        <span class="text-gradient-animated">MÁS LEJOS.</span><br/>
         VIVE<br/>
         <span class="italic text-white/30">MÁS FUERTE.</span>
       </h1>
@@ -485,7 +661,7 @@
 
       <!-- CTA buttons -->
       <div class="flex flex-col sm:flex-row gap-4 animate-fade-up" style="animation-fill-mode:both; animation-delay:0.5s;">
-        <a href="#join" class="pulse-ring inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red hover:bg-red-700 text-white font-body font-semibold text-lg transition-colors duration-200 cursor-pointer group" aria-label="Únete a la familia MyPacerPro">
+        <a href="#join" class="pulse-ring btn-glow inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red text-white font-body font-semibold text-lg cursor-pointer group" aria-label="Únete a la familia MyPacerPro">
           Únete a la Familia
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -556,19 +732,27 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6">
       <div class="stat-block reveal">
-        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">1,200<span class="text-brand-red">+</span></p>
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">
+          <span class="stat-number" data-target="1200">0</span><span class="text-brand-red">+</span>
+        </p>
         <p class="font-body text-white/50 text-sm mt-4">Atletas Activos</p>
       </div>
       <div class="stat-block reveal reveal-delay-1">
-        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">15<span class="text-brand-red">+</span></p>
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">
+          <span class="stat-number" data-target="15">0</span><span class="text-brand-red">+</span>
+        </p>
         <p class="font-body text-white/50 text-sm mt-4">Coaches Certificados</p>
       </div>
       <div class="stat-block reveal reveal-delay-2">
-        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">30<span class="text-brand-red">+</span></p>
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">
+          <span class="stat-number" data-target="30">0</span><span class="text-brand-red">+</span>
+        </p>
         <p class="font-body text-white/50 text-sm mt-4">Marcas Globales</p>
       </div>
       <div class="stat-block reveal reveal-delay-3">
-        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">6<span class="text-brand-red">+</span></p>
+        <p class="font-heading font-black text-5xl md:text-6xl text-white mb-1">
+          <span class="stat-number" data-target="6">0</span><span class="text-brand-red">+</span>
+        </p>
         <p class="font-body text-white/50 text-sm mt-4">Disciplinas</p>
       </div>
     </div>
@@ -686,7 +870,7 @@
           <img src="https://images.unsplash.com/photo-1594882645126-14020914d58d?w=400&auto=format&fit=crop&q=80" alt="Team after marathon" class="rounded-2xl object-cover h-52 w-full" loading="lazy" width="400" height="300"/>
         </div>
         <!-- Floating badge -->
-        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-brand-red text-white px-6 py-3 rounded-full font-heading font-bold text-lg shadow-xl whitespace-nowrap z-20">
+        <div class="badge-float absolute -bottom-4 left-1/2 -translate-x-1/2 bg-brand-red text-white px-6 py-3 rounded-full font-heading font-bold text-lg shadow-xl whitespace-nowrap z-20" style="box-shadow: 0 8px 32px rgba(220,38,38,0.4);">
           Más que un equipo — una familia
         </div>
       </div>
@@ -874,7 +1058,7 @@
       </div>
 
       <!-- Pro — Featured -->
-      <div class="card-hover rounded-2xl border border-brand-red/50 p-8 relative reveal reveal-delay-2" style="background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(220,38,38,0.03) 100%);">
+      <div class="card-hover card-spotlight shine-border rounded-2xl border border-brand-red/50 p-8 relative reveal reveal-delay-2" style="background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(220,38,38,0.03) 100%);">
         <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-red to-brand-amber text-white text-xs font-heading font-bold px-5 py-1.5 rounded-full whitespace-nowrap">
           MÁS POPULAR
         </div>
@@ -1072,7 +1256,8 @@
 
     <div class="grid md:grid-cols-3 gap-6">
 
-      <div class="testimonial-card reveal reveal-delay-1">
+      <div class="testimonial-card card-spotlight relative reveal reveal-delay-1">
+        <span class="quote-icon" aria-hidden="true">"</span>
         <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1092,7 +1277,8 @@
         </div>
       </div>
 
-      <div class="testimonial-card reveal reveal-delay-2">
+      <div class="testimonial-card card-spotlight relative reveal reveal-delay-2">
+        <span class="quote-icon" aria-hidden="true">"</span>
         <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1112,7 +1298,8 @@
         </div>
       </div>
 
-      <div class="testimonial-card reveal reveal-delay-3">
+      <div class="testimonial-card card-spotlight relative reveal reveal-delay-3">
+        <span class="quote-icon" aria-hidden="true">"</span>
         <div class="flex gap-1 mb-4" aria-label="5 de 5 estrellas">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBF24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1211,7 +1398,7 @@
         <textarea id="message" name="message" rows="3" class="form-input resize-none" placeholder="Quiero completar mi primer Ironman en 2025..."></textarea>
       </div>
 
-      <button type="submit" id="submit-btn" class="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red hover:bg-red-700 text-white font-body font-semibold text-lg transition-colors duration-200 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red" aria-label="Enviar formulario de registro">
+      <button type="submit" id="submit-btn" class="btn-glow w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-brand-red text-white font-body font-semibold text-lg cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red" aria-label="Enviar formulario de registro">
         <svg id="submit-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         <span id="submit-text">Únete a la Familia</span>
       </button>
@@ -1431,6 +1618,61 @@
       nav.style.boxShadow = 'none';
     }
   }, { passive: true });
+
+  // ── 21st.dev: Number Ticker (magicui/number-ticker translated) ──
+  function animateCounter(el, target, duration = 2000) {
+    const start = performance.now();
+    const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+    const fmt = n => n.toLocaleString('es-MX');
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const current = Math.round(easeOutCubic(progress) * target);
+      el.textContent = fmt(current);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = fmt(target);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const delay = parseInt(el.dataset.delay || '0', 10);
+        setTimeout(() => animateCounter(el, target, 1800), delay);
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-number').forEach((el, i) => {
+    el.dataset.delay = i * 150;
+    statObserver.observe(el);
+  });
+
+  // ── 21st.dev: Hero Spotlight (Aceternity/spotlight translated) ──
+  const heroSection = document.querySelector('.hero-spotlight');
+  if (heroSection) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+      const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+      heroSection.style.setProperty('--spotlight-x', x + '%');
+      heroSection.style.setProperty('--spotlight-y', y + '%');
+    }, { passive: true });
+  }
+
+  // ── 21st.dev: Card Spotlight (Aceternity/card-hover-effect translated) ──
+  document.querySelectorAll('.card-spotlight').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+      const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+      card.style.setProperty('--card-x', x + '%');
+      card.style.setProperty('--card-y', y + '%');
+    }, { passive: true });
+  });
 </script>
 
 </body>
